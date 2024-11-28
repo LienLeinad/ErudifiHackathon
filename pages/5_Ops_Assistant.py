@@ -1,11 +1,7 @@
 import streamlit as st
 import streamlit_pydantic as sp
 
-<<<<<<< HEAD
 from models.revision_field import runnable
-=======
-from models.revision_field import SYSTEM_PROMPT, runnable
->>>>>>> f13665a67a402d1a96b252036215f06bcb662008
 
 st.set_page_config(
     page_title="Patricia (Operations Assistant)",
