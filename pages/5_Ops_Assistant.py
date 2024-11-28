@@ -50,7 +50,6 @@ def get_image_description(uploaded_file, file_type):
     for chunk in runnable.stream({"file_type": file_type, "guidelines": guidelines, "image_url": f"data:image/png;base64,{encoded_image}"}):
         response += chunk
     return response
-    # Create the GPT-4o or GPT-4o-mini API request
     # response = client.chat.completions.create(
     #     model=model_choice,
     #     messages=[
@@ -67,9 +66,6 @@ def get_image_description(uploaded_file, file_type):
     #     ],
     #     max_tokens=300,
     # )
-
-    # Extract and return the description
-    # return response.choices[0].message.content
 
 # Streamlit app layout
 st.title("Image Description using GPT-4o and GPT-4o Mini")
