@@ -1,6 +1,7 @@
 import base64
 import os
 from enum import Enum
+from datetime import datetime
 
 import streamlit as st
 import streamlit_pydantic as sp
@@ -53,9 +54,11 @@ proof_of_income_guidelines = """
  * Audited Financial Statements
  * Employment Contract
  * Remittance Receipts 
+
 2. If classified as Payslips/Remittance Receipts/Bank Statements, it should be dated within the last 3 months
- 
 3. Person's name should be clearly shown in the image
+
+if any one of the provided guidelines are not valid, then classify the document as Invalid
 """
 
 guidelines_dict = {
