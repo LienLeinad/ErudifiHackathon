@@ -27,8 +27,9 @@ Built with ❤️ by Erudifi EPD
 selfie_with_id_guidelines = """1. The image must be clear and well-lit.
 2. The photo must show a person facing the camera and holding a physical ID.
 3. The person's hands should be visible, holding the ID.
-4. Both the person's face and the ID should be fully visible in the same frame.
-5. Obstructions: The person's face must not be obstructed, except for eyewear if necessary.
+4. The ID should show the front side containing the name of the person.
+5. Both the person's face and the ID should be fully visible in the same frame.
+6. The person's face must not be obstructed, except for eyewear if necessary.
 
 Examples of invalid image files are the following: 
 - A standalone ID card without a person holding this ID card
