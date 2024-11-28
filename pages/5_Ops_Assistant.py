@@ -3,6 +3,13 @@ import streamlit_pydantic as sp
 
 from models.revision_field import runnable
 
+import base64
+import os
+from enum import Enum
+
+import streamlit as st
+from pydantic import BaseModel, Field
+
 st.set_page_config(
     page_title="Patricia (Operations Assistant)",
     page_icon="🎓",
@@ -16,14 +23,6 @@ Patricia will provide you feedback of the file you sent.
 Built with ❤️ by Erudifi EPD
 """
 
-import base64
-import os
-from enum import Enum
-
-import streamlit as st
-from openai import OpenAI
-from pydantic import BaseModel, Field
-from streamlit.runtime.uploaded_file_manager import UploadedFile
 
 selfie_with_id_guidelines = """1. The image must be clear and well-lit.
 2. The photo must show a person facing the camera and holding a physical ID.
@@ -54,41 +53,7 @@ class FileTypeChoices(str, Enum):
 
 
 class RevisionFileInput(BaseModel):
-    # upload_file: UploadedFile = Field(..., description="Uploaded image file from user.")
     file_type: FileTypeChoices = Field(..., description="File Type uploaded")
-
-
-def get_image_description(uploaded_file, file_type):
-    # Encode the uploaded image in base64
-    encoded_image = base64.b64encode(uploaded_file.getvalue()).decode("utf-8")
-
-    guidelines = guidelines_dict.get(file_type)
-    response = ""
-    for chunk in runnable.stream(
-        {
-            "file_type": file_type,
-            "guidelines": guidelines,
-            "image_url": f"data:image/png;base64,{encoded_image}",
-        }
-    ):
-        response += chunk
-    return response
-    # response = client.chat.completions.create(
-    #     model=model_choice,
-    #     messages=[
-    #         {
-    #             "role": "user",
-    #             "content": [
-    #                 {"type": "text", "text": SYSTEM_PROMPT},
-    #                 {
-    #                     "type": "image_url",
-    #                     "image_url": {"url": f"data:image/png;base64,{encoded_image}"}
-    #                 },
-    #             ],
-    #         }
-    #     ],
-    #     max_tokens=300,
-    # )
 
 
 # Streamlit app layout
@@ -98,14 +63,6 @@ st.write("Upload your revision field")
 api_key = os.environ.get("OPENAI_API_KEY", "")
 
 if api_key:
-    # Initialize the OpenAI client
-    client = OpenAI(api_key=api_key)
-
-    # # Upload image button
-    # uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-    # # File type dropdown
-    # file_type = st.selectbox("Choose File Type", ["Assessment File", "Selfie w/ ID"])
-
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
     revision_file_input = sp.pydantic_form(
         key="revision_file_input", model=RevisionFileInput
