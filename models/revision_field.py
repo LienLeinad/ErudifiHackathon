@@ -53,8 +53,7 @@ prompt = ChatPromptTemplate.from_messages(
 )
 
 prompt = prompt.partial(format_instructions=parser.get_format_instructions())
-
 model = ChatOpenAI(model="gpt-4o-mini", streaming=True)
 
 
-runnable = prompt | model | StrOutputParser()
+runnable = prompt | model | parser
