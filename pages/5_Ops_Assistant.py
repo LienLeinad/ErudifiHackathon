@@ -18,12 +18,12 @@ Built with ❤️ by Erudifi EPD
 
 import base64
 import os
+from enum import Enum
 
 import streamlit as st
 from openai import OpenAI
 from pydantic import BaseModel, Field
 from streamlit.runtime.uploaded_file_manager import UploadedFile
-from enum import Enum
 
 selfie_with_id_guidelines = """1. The image must be clear and well-lit.
 2. The photo must show a person facing the camera and holding a physical ID.
@@ -37,9 +37,9 @@ Examples of invalid image files are the following:
 - A photo of an object, background, or any unrelated subject.
 """
 assessment_file_guidelines = """1. The image must be clear and well-lit.
-2. The image must contain a real person's name as a text.
+2. The image must contain a person's name as a text.
 3. The image must contain student number.
-4. The image must contain a tuition numerical value.
+4. The image must contain a tuition fee.
 """
 
 guidelines_dict = {
