@@ -1,29 +1,45 @@
-from typing import List
 from datetime import datetime
+from enum import Enum
+from typing import List
 
 from langchain.output_parsers import PydanticOutputParser
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
+from langchain.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    MessagesPlaceholder,
+)
+from langchain.schema import AIMessage, HumanMessage
+from langchain.schema.output_parser import StrOutputParser
+from langchain_core.output_parsers import JsonOutputParser
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema import AIMessage, HumanMessage
-from langchain.schema.output_parser import StrOutputParser
-
 SYSTEM_PROMPT = """You are an assistant for the operations team in checking the quality and validity of a selfie image submission. Your task is to verify whether the submitted image meets the following strict guidelines:
 
+GUIDELINES
 {guidelines}
 
-If the photo does not meet these requirements, tag it as invalid and inform the user which guidelines they failed to meet among those four. 
-
-If the file is valid, your response should look like this:
-"Thank you for submitting your {file_type}. Please wait for a response from our team". 
-Say nothing but this if the file is valid.
-
-If the file is invalid, your response should look like this:
-"Thank you for providing another image." Then provide a description of the reasons why the image does not meet the guidelines
+{format_instructions}
 """
 
+
+class Classification(str, Enum):
+    VALID = "VALID"
+    INVALID = "INVALID"
+
+
+FEEDBACK_GUIDELINES = """Provide some suggestions on how to improve the quality of their photo based on the guidelines that their uploaded file did not meet.
+Ensure that you are using a tentative tone instead of an authoritative tone. 
+Keep it short. Afterwards, suggest retaking the photo
+"""
+
+
+class DataCheckerResponse(BaseModel):
+    classification: Classification
+    feedback: str = Field(..., description=FEEDBACK_GUIDELINES)
+
+
+parser = JsonOutputParser(pydantic_object=DataCheckerResponse)
 
 prompt = ChatPromptTemplate.from_messages(
     [
@@ -36,32 +52,9 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-
+prompt = prompt.partial(format_instructions=parser.get_format_instructions())
 
 model = ChatOpenAI(model="gpt-4o-mini", streaming=True)
 
 
-def convert_message(msg):
-    if msg["type"] == "human":
-        return HumanMessage(content=msg["content"])
-    elif msg["type"] == "ai":
-        return AIMessage(content=msg["content"])
-
-
-
-runnable = (
-     prompt
-    | model
-    | StrOutputParser()
-    )
-
-# runnable = (
-#     {
-#         "input": lambda x: x["input"],
-#         "history": lambda x: [convert_message(msg) for msg in x["history"]],
-#         "date": lambda x: datetime.now().strftime("%B %d, %Y"),
-#     }
-#     | prompt
-#     | model
-#     | StrOutputParser()
-# )
+runnable = prompt | model | StrOutputParser()
