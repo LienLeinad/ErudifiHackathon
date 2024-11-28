@@ -53,8 +53,7 @@ proof_of_income_guidelines = """
  * Audited Financial Statements
  * Employment Contract
  * Remittance Receipts 
-2. If classified as Payslips/Remittance Receipts/Bank Statements, it should be dated within the last 3 months
- 
+2. If classified as Payslips/Remittance Receipts/Bank Statements, date issued should NOT be beyond the last 3 months from today's date.
 3. Person's name should be clearly shown in the image
 """
 
