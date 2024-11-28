@@ -1,14 +1,16 @@
-from typing import List
 from datetime import datetime
+from typing import List
 
 from langchain.output_parsers import PydanticOutputParser
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate
-from langchain_openai import ChatOpenAI
-from pydantic import BaseModel, Field
-
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    MessagesPlaceholder,
+)
 from langchain.schema import AIMessage, HumanMessage
 from langchain.schema.output_parser import StrOutputParser
+from langchain_openai import ChatOpenAI
+from pydantic import BaseModel, Field
 
 SYSTEM_PROMPT = """You are an assistant for the operations team in checking the quality and validity of a selfie image submission. Your task is to verify whether the submitted image meets the following strict guidelines:
 
@@ -37,7 +39,6 @@ prompt = ChatPromptTemplate.from_messages(
 )
 
 
-
 model = ChatOpenAI(model="gpt-4o-mini", streaming=True)
 
 
@@ -48,12 +49,7 @@ def convert_message(msg):
         return AIMessage(content=msg["content"])
 
 
-
-runnable = (
-     prompt
-    | model
-    | StrOutputParser()
-    )
+runnable = prompt | model | StrOutputParser()
 
 # runnable = (
 #     {

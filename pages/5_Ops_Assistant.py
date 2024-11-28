@@ -1,9 +1,7 @@
-
 import streamlit as st
 import streamlit_pydantic as sp
 
-from models.revision_field import runnable
-from models.revision_field import SYSTEM_PROMPT
+from models.revision_field import SYSTEM_PROMPT, runnable
 
 st.set_page_config(
     page_title="Patricia (Operations Assistant)",
@@ -18,10 +16,11 @@ Patricia will provide you feedback of the file you sent.
 Built with ❤️ by Erudifi EPD
 """
 
+import base64
 import os
+
 import streamlit as st
 from openai import OpenAI
-import base64
 
 selfie_with_id_guidelines = """
     GUIDELINES
@@ -39,15 +38,23 @@ selfie_with_id_guidelines = """
 
 guidelines_dict = {
     "Selfie w/ ID": selfie_with_id_guidelines,
-    "Assessment File": """ Insert Some guidelines here """
+    "Assessment File": """ Insert Some guidelines here """,
 }
+
+
 def get_image_description(uploaded_file, file_type):
     # Encode the uploaded image in base64
-    encoded_image = base64.b64encode(uploaded_file.getvalue()).decode('utf-8')
+    encoded_image = base64.b64encode(uploaded_file.getvalue()).decode("utf-8")
 
     guidelines = guidelines_dict.get(file_type)
     response = ""
-    for chunk in runnable.stream({"file_type": file_type, "guidelines": guidelines, "image_url": f"data:image/png;base64,{encoded_image}"}):
+    for chunk in runnable.stream(
+        {
+            "file_type": file_type,
+            "guidelines": guidelines,
+            "image_url": f"data:image/png;base64,{encoded_image}",
+        }
+    ):
         response += chunk
     return response
     # response = client.chat.completions.create(
@@ -66,6 +73,7 @@ def get_image_description(uploaded_file, file_type):
     #     ],
     #     max_tokens=300,
     # )
+
 
 # Streamlit app layout
 st.title("Image Description using GPT-4o and GPT-4o Mini")
@@ -86,7 +94,7 @@ if api_key:
     if uploaded_file is not None:
         try:
             # Display the uploaded image
-            st.image(uploaded_file, caption='Uploaded Image.', use_column_width=True)
+            st.image(uploaded_file, caption="Uploaded Image.", use_column_width=True)
             st.write("")
             st.write("Classifying...")
 
