@@ -1,5 +1,6 @@
 import base64
 import os
+from datetime import datetime
 from enum import Enum
 
 import streamlit as st
@@ -55,6 +56,8 @@ proof_of_income_guidelines = """
  * Remittance Receipts 
 2. If classified as Payslips/Remittance Receipts/Bank Statements, date issued should NOT be beyond the last 3 months from today's date.
 3. Person's name should be clearly shown in the image
+
+if any one of the provided guidelines are not valid, then classify the document as Invalid
 """
 
 guidelines_dict = {
