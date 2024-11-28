@@ -1,0 +1,4 @@
+Langchain==0.2.14
+Streamlit==1.37.1
+langchain_openai==0.1.22
+git+https://github.com/lukasmasuch/streamlit-pydantic@main#egg=streamlit_pydantic

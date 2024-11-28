@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local development settings
+.venv
+*.sqlite3
+
+# Static files
+/staticfiles/
+*.css
+*.js
+*.map
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+
+# Media files
+/media/
+
+# Django test database
+test_db.sqlite3
+
+# Ignore migrations
+**/migrations/
