@@ -40,8 +40,7 @@ assessment_file_guidelines = """1. The image must be clear and well-lit.
 4. The image must contain a tuition fee.
 """
 proof_of_income_guidelines = """
-1. Person's name should be clearly shown in the image
-2. Classify as follows:
+1. Classify as follows:
  * Income Tax Return BIR 2316
  * Certificate of Employment with monthly income
  * Payslips
@@ -54,8 +53,9 @@ proof_of_income_guidelines = """
  * Audited Financial Statements
  * Employment Contract
  * Remittance Receipts 
+2. If classified as Payslips/Remittance Receipts/Bank Statements, it should be dated within the last 3 months
  
-3. If classified as Payslips/Remittance Receipts/Bank Statements, it should be dated within the last 3 months
+3. Person's name should be clearly shown in the image
 """
 
 guidelines_dict = {
