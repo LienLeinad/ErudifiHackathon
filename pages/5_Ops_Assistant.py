@@ -1,14 +1,12 @@
-import streamlit as st
-import streamlit_pydantic as sp
-
-from models.revision_field import runnable
-
 import base64
 import os
 from enum import Enum
 
 import streamlit as st
+import streamlit_pydantic as sp
 from pydantic import BaseModel, Field
+
+from models.revision_field import runnable
 
 st.set_page_config(
     page_title="Patricia (Operations Assistant)",
@@ -41,16 +39,36 @@ assessment_file_guidelines = """1. The image must be clear and well-lit.
 3. The image must contain student number.
 4. The image must contain a tuition fee.
 """
+proof_of_income_guidelines = """
+1. Person's name should be clearly shown in the image
+2. Classify as follows:
+ * Income Tax Return BIR 2316
+ * Certificate of Employment with monthly income
+ * Payslips
+ * Payroll bank account statement
+ * DTI Permit
+ * City Business Permit
+ * Barangay Business Permit
+ * Bank Statements
+ * Income Tax Return 1701
+ * Audited Financial Statements
+ * Employment Contract
+ * Remittance Receipts 
+ 
+3. If classified as Payslips/Remittance Receipts/Bank Statements, it should be dated within the last 3 months
+"""
 
 guidelines_dict = {
     "Selfie with ID File": selfie_with_id_guidelines,
     "Assessment File": assessment_file_guidelines,
+    "Proof of Income File": proof_of_income_guidelines,
 }
 
 
 class FileTypeChoices(str, Enum):
     ASSESSMENT_FILE = "Assessment File"
     SELFIE_WITH_ID_FILE = "Selfie with ID File"
+    PROOF_OF_INCOME_FILE = "Proof of Income File"
 
 
 class RevisionFileInput(BaseModel):
