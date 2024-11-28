@@ -46,9 +46,8 @@ guidelines_dict = {
 
 
 # Streamlit app layout
-st.title("Image Description using GPT-4o and GPT-4o Mini")
-st.write("Upload an image and get a description using GPT-4o or GPT-4o Mini.")
-
+st.title("Revisions Required")
+st.write("Upload your revision field")
 # Textbox for updating OpenAI API key
 api_key = os.environ.get("OPENAI_API_KEY", "")
 
