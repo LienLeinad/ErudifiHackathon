@@ -132,5 +132,5 @@ if api_key:
             st.write(response)
         except Exception as e:
             st.error(f"Error: {e}")
-    else:
-        st.error("Please provide a valid OpenAI API key.")
+else:
+    st.error("Please provide a valid OpenAI API key.")
