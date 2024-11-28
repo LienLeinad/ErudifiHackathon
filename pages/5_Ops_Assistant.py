@@ -43,7 +43,7 @@ assessment_file_guidelines = """1. The image must be clear and well-lit.
 """
 
 guidelines_dict = {
-    "Selfie w/ ID": selfie_with_id_guidelines,
+    "Selfie with ID File": selfie_with_id_guidelines,
     "Assessment File": assessment_file_guidelines,
 }
 
